@@ -1,93 +1,16 @@
-# Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
-x64/
-x86/
-build/
-bld/
 [Bb]in/
 [Oo]bj/
-[Ll]og/
-
-# Visual Studio 2015/2017 cache/options directory
-.vs/
-
-# MSTest test Results
-[Tt]est[Rr]esult*/
-[Bb]uild[Ll]og.*
-
-# NUNIT
-*.VisualState.xml
-TestResult.xml
-
-# .NET Core
-project.lock.json
-project.fragment.lock.json
-artifacts/
-**/Properties/launchSettings.json
-
-# Package Files
-*.nupkg
-*.snupkg
-
-# Application specific
-*.exe
-*.dll
-*.pdb
-*.xml
-*.config
-
-# Temporary files
-*.tmp
-*.log
-*.bak
-*.swp
-*~.nib
-.DS_Store
-
-# MySQL data files (if any)
-*.mdf
-*.ldf
-
-# User-specific files
-*.suo
 *.user
-*.userosscache
-*.sln.docstates
-
-# IDE files
-*.sublime-project
-*.sublime-workspace
-.idea/
-
-# Rider
-.idea/
-rider.env.xml
-
-# MacOS
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Windows
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-$RECYCLE.BIN/
-
-# Linux
-*~
-
-# Backup files
-*.bak
-*.backup
-*.orig
-
-# VB.NET specific
+*.suo
+*.cache
+*.pdb
 *.vbw
-*.vb
-*.vbp
+*.vbc
+*.vbg
+*.vbr
+*.vba
+*.vbl
+*.vbe
 *.vbs
 *.vbm
+*.vbp
