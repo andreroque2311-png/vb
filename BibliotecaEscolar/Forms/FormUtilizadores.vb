@@ -1,8 +1,11 @@
 Imports System.Windows.Forms
 Imports BibliotecaEscolar.Models
 Imports BibliotecaEscolar.DAL
+Imports System.Data
+Imports System.Drawing
 
-Public Class FormUtilizadores
+Namespace BibliotecaEscolar.Forms
+    Public Class FormUtilizadores
     Inherits Form
 
     Private dgvUtilizadores As DataGridView
@@ -360,3 +363,4 @@ Public Class FormUtilizadorDetalhes
         Me.Close()
     End Sub
 End Class
+End Namespace

@@ -1,7 +1,9 @@
 Imports MySql.Data.MySqlClient
 Imports BibliotecaEscolar.Models
+Imports System.Data
 
-Public Class UtilizadorDAL
+Namespace BibliotecaEscolar.DAL
+    Public Class UtilizadorDAL
     Public Shared Function Adicionar(utilizador As Utilizador) As Integer
         Dim query As String = "INSERT INTO utilizadores (nome, email, telefone, data_registro) VALUES (@nome, @email, @telefone, @dataRegistro); SELECT LAST_INSERT_ID();"
         Dim parameters As MySqlParameter() = {
@@ -88,3 +90,4 @@ Public Class UtilizadorDAL
         Return utilizadores
     End Function
 End Class
+End Namespace
