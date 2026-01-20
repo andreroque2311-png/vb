@@ -1,0 +1,26 @@
+# Ignore build output
+bin/
+obj/
+
+# Ignore user-specific files
+*.user
+*.suo
+*.cache
+
+# Ignore Visual Studio temporary files
+*.tmp
+*.bak
+
+# Ignore NuGet packages
+packages/
+
+# Ignore local database files
+*.mdf
+*.ldf
+
+# Ignore IDE-specific files
+.vs/
+.idea/
+
+# Ignore MySQL connector logs
+mysql-connector-net*.log

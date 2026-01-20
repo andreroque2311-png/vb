@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>BibliotecaEscolar</RootNamespace>
+    <TargetFramework>net48</TargetFramework>
+    <ApplicationIcon />
+    <StartupObject>BibliotecaEscolar.FormMain</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MySql.Data" Version="8.0.28" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Models\Livro.vb" />
+    <Compile Include="Models\Utilizador.vb" />
+    <Compile Include="Models\Emprestimo.vb" />
+    <Compile Include="DAL\DatabaseConnection.vb" />
+    <Compile Include="DAL\LivroDAL.vb" />
+    <Compile Include="DAL\UtilizadorDAL.vb" />
+    <Compile Include="DAL\EmprestimoDAL.vb" />
+    <Compile Include="Forms\FormMain.vb" />
+    <Compile Include="Forms\FormLivros.vb" />
+    <Compile Include="Forms\FormUtilizadores.vb" />
+    <Compile Include="Forms\FormEmprestimos.vb" />
+    <Compile Include="Program.vb" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Forms\FormMain.resx">
+      <DependentUpon>FormMain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormLivros.resx">
+      <DependentUpon>FormLivros.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormUtilizadores.resx">
+      <DependentUpon>FormUtilizadores.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormEmprestimos.resx">
+      <DependentUpon>FormEmprestimos.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
