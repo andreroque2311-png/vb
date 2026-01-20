@@ -5,6 +5,7 @@
     <RootNamespace>BibliotecaEscolar</RootNamespace>
     <TargetFramework>net48</TargetFramework>
     <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems>true</EnableDefaultEmbeddedResourceItems>
     <ApplicationIcon />
     <StartupObject>BibliotecaEscolar.FormMain</StartupObject>
   </PropertyGroup>
@@ -19,21 +20,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Forms\FormMain.resx">
-      <DependentUpon>FormMain.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FormLivros.resx">
-      <DependentUpon>FormLivros.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FormUtilizadores.resx">
-      <DependentUpon>FormUtilizadores.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FormEmprestimos.resx">
-      <DependentUpon>FormEmprestimos.vb</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
