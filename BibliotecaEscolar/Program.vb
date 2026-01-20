@@ -1,17 +1,10 @@
-Imports System
-Imports System.Windows.Forms
 Imports BibliotecaEscolar.Forms
 
-Namespace BibliotecaEscolar
-    Module Program
-        Sub Main(args As String())
-            ' Configurar aplicação para usar Windows Forms
-            Application.EnableVisualStyles()
-            Application.SetCompatibleTextRenderingDefault(False)
-
-            ' Inicializar o formulário principal
-            Dim mainForm As New FormMain()
-            Application.Run(mainForm)
-        End Sub
-    End Module
-End Namespace
+Module Program
+    <STAThread()>
+    Sub Main()
+        System.Windows.Forms.Application.EnableVisualStyles()
+        System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(False)
+        System.Windows.Forms.Application.Run(New FormMain())
+    End Sub
+End Module
