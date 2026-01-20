@@ -1,6 +1,8 @@
 Imports System.Windows.Forms
+Imports System.Drawing
 
-Public Class FormMain
+Namespace BibliotecaEscolar.Forms
+    Public Class FormMain
     Inherits Form
 
     Private btnLivros As Button
@@ -83,3 +85,4 @@ Public Class FormMain
         Application.Exit()
     End Sub
 End Class
+End Namespace

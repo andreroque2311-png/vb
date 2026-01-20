@@ -1,7 +1,9 @@
 Imports MySql.Data.MySqlClient
 Imports System.Configuration
+Imports System.Data
 
-Public Class DatabaseConnection
+Namespace BibliotecaEscolar.DAL
+    Public Class DatabaseConnection
     Private Shared connectionString As String = ConfigurationManager.ConnectionStrings("BibliotecaEscolar.My.MySettings.BibliotecaEscolarConnectionString").ConnectionString
 
     Public Shared Function ExecuteQuery(query As String, Optional parameters As MySqlParameter() = Nothing) As DataTable
@@ -82,3 +84,4 @@ Public Class DatabaseConnection
         End Using
     End Function
 End Class
+End Namespace
