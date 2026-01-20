@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>BibliotecaEscolar</RootNamespace>
+    <RootNamespace></RootNamespace>
     <TargetFramework>net48</TargetFramework>
     <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
     <EnableDefaultEmbeddedResourceItems>true</EnableDefaultEmbeddedResourceItems>
     <ApplicationIcon />
-    <StartupObject>BibliotecaEscolar.FormMain</StartupObject>
+    <StartupObject>Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
