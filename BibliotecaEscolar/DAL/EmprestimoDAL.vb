@@ -1,7 +1,9 @@
 Imports MySql.Data.MySqlClient
 Imports BibliotecaEscolar.Models
+Imports System.Data
 
-Public Class EmprestimoDAL
+Namespace BibliotecaEscolar.DAL
+    Public Class EmprestimoDAL
     Public Shared Function Adicionar(emprestimo As Emprestimo) As Integer
         Dim query As String = "INSERT INTO emprestimos (id_livro, id_utilizador, data_emprestimo, data_devolucao) VALUES (@idLivro, @idUtilizador, @dataEmprestimo, @dataDevolucao); SELECT LAST_INSERT_ID();"
         Dim parameters As MySqlParameter() = {
@@ -141,3 +143,4 @@ Public Class EmprestimoDAL
         Return DatabaseConnection.ExecuteTransaction(queries, parametersList)
     End Function
 End Class
+End Namespace

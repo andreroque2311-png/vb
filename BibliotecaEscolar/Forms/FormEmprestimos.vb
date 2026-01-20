@@ -1,8 +1,11 @@
 Imports System.Windows.Forms
 Imports BibliotecaEscolar.Models
 Imports BibliotecaEscolar.DAL
+Imports System.Data
+Imports System.Drawing
 
-Public Class FormEmprestimos
+Namespace BibliotecaEscolar.Forms
+    Public Class FormEmprestimos
     Inherits Form
 
     Private dgvEmprestimos As DataGridView
@@ -325,3 +328,4 @@ Public Class FormEmprestimoDetalhes
         End Function
     End Class
 End Class
+End Namespace
