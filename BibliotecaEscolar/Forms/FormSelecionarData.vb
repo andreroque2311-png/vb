@@ -100,13 +100,5 @@ Namespace BibliotecaEscolar.Forms
             Me.DialogResult = DialogResult.Cancel
             Me.Close()
         End Sub
-
-        Public Function ShowDialog(parentForm As Form) As DialogResult
-            Return Me.ShowDialog(parentForm)
-        End Function
-
-        Public Function ShowDialog() As DialogResult
-            Return MyBase.ShowDialog()
-        End Function
     End Class
 End Namespace
