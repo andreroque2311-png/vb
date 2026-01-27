@@ -127,12 +127,18 @@ Namespace BibliotecaEscolar.Forms
                     MessageBox.Show("Preencha o nome!")
                     Return
                 End If
-                
+
+                ' Validação de telefone: deve conter exatamente 9 dígitos
+                If Not System.Text.RegularExpressions.Regex.IsMatch(txtTelefone.Text, "^\d{9}$") Then
+                    MessageBox.Show("Telefone inválido! Deve conter exatamente 9 números.")
+                    Return
+                End If
+
                 Dim utilizador As New Utilizador
                 utilizador.Nome = txtNome.Text
                 utilizador.Email = txtEmail.Text
                 utilizador.Telefone = txtTelefone.Text
-                
+
                 UtilizadorDAL.AdicionarUtilizador(utilizador)
                 MessageBox.Show("Utilizador adicionado com sucesso!")
                 CarregarUtilizadores()
@@ -148,18 +154,24 @@ Namespace BibliotecaEscolar.Forms
                     MessageBox.Show("Selecione um utilizador para atualizar!")
                     Return
                 End If
-                
+
                 If String.IsNullOrWhiteSpace(txtNome.Text) Then
                     MessageBox.Show("Preencha o nome!")
                     Return
                 End If
-                
+
+                ' Validação de telefone: deve conter exatamente 9 dígitos
+                If Not System.Text.RegularExpressions.Regex.IsMatch(txtTelefone.Text, "^\d{9}$") Then
+                    MessageBox.Show("Telefone inválido! Deve conter exatamente 9 números.")
+                    Return
+                End If
+
                 Dim utilizador As New Utilizador
                 utilizador.ID = CInt(txtNome.Tag)
                 utilizador.Nome = txtNome.Text
                 utilizador.Email = txtEmail.Text
                 utilizador.Telefone = txtTelefone.Text
-                
+
                 UtilizadorDAL.AtualizarUtilizador(utilizador)
                 MessageBox.Show("Utilizador atualizado com sucesso!")
                 CarregarUtilizadores()
