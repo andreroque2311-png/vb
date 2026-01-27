@@ -4,18 +4,11 @@ Imports System.Data
 
 Namespace BibliotecaEscolar.DAL
     Public Class EmprestimoDAL
-        Private db As DatabaseConnection
-        
-        Public Sub New()
-            db = New DatabaseConnection()
-        End Sub
-        
-        Public Function ListarTodos() As DataTable
-            Dim query As String = "SELECT * FROM Emprestimos"
-            Return db.ExecuteQuery(query)
+        Public Shared Function ListarTodos() As DataTable
+            Return DatabaseConnection.ExecuteQuery("SELECT * FROM Emprestimos")
         End Function
         
-        Public Sub AdicionarEmprestimo(emprestimo As Emprestimo)
+        Public Shared Sub AdicionarEmprestimo(emprestimo As Emprestimo)
             Dim query As String = "INSERT INTO Emprestimos (IdLivro, IdUtilizador, DataEmprestimo, DataDevolucao) VALUES (@IdLivro, @IdUtilizador, @DataEmprestimo, @DataDevolucao)"
             Dim parameters As MySqlParameter() = {
                 New MySqlParameter("@IdLivro", emprestimo.IdLivro),
@@ -23,10 +16,10 @@ Namespace BibliotecaEscolar.DAL
                 New MySqlParameter("@DataEmprestimo", emprestimo.DataEmprestimo),
                 New MySqlParameter("@DataDevolucao", If(emprestimo.DataDevolucao.HasValue, CType(emprestimo.DataDevolucao, Object), DBNull.Value))
             }
-            db.ExecuteNonQuery(query, parameters)
+            DatabaseConnection.ExecuteNonQuery(query, parameters)
         End Sub
         
-        Public Sub AtualizarEmprestimo(emprestimo As Emprestimo)
+        Public Shared Sub AtualizarEmprestimo(emprestimo As Emprestimo)
             Dim query As String = "UPDATE Emprestimos SET IdLivro = @IdLivro, IdUtilizador = @IdUtilizador, DataEmprestimo = @DataEmprestimo, DataDevolucao = @DataDevolucao WHERE ID = @ID"
             Dim parameters As MySqlParameter() = {
                 New MySqlParameter("@IdLivro", emprestimo.IdLivro),
@@ -35,23 +28,23 @@ Namespace BibliotecaEscolar.DAL
                 New MySqlParameter("@DataDevolucao", If(emprestimo.DataDevolucao.HasValue, CType(emprestimo.DataDevolucao, Object), DBNull.Value)),
                 New MySqlParameter("@ID", emprestimo.ID)
             }
-            db.ExecuteNonQuery(query, parameters)
+            DatabaseConnection.ExecuteNonQuery(query, parameters)
         End Sub
         
-        Public Sub DeletarEmprestimo(id As Integer)
+        Public Shared Sub DeletarEmprestimo(id As Integer)
             Dim query As String = "DELETE FROM Emprestimos WHERE ID = @ID"
             Dim parameters As MySqlParameter() = {
                 New MySqlParameter("@ID", id)
             }
-            db.ExecuteNonQuery(query, parameters)
+            DatabaseConnection.ExecuteNonQuery(query, parameters)
         End Sub
         
-        Public Function ObterPorId(id As Integer) As Emprestimo
+        Public Shared Function ObterPorId(id As Integer) As Emprestimo
             Dim query As String = "SELECT * FROM Emprestimos WHERE ID = @ID"
             Dim parameters As MySqlParameter() = {
                 New MySqlParameter("@ID", id)
             }
-            Dim dt As DataTable = db.ExecuteQuery(query, parameters)
+            Dim dt As DataTable = DatabaseConnection.ExecuteQuery(query, parameters)
             If dt.Rows.Count > 0 Then
                 Dim row As DataRow = dt.Rows(0)
                 Dim emprestimo As New Emprestimo
@@ -67,14 +60,14 @@ Namespace BibliotecaEscolar.DAL
             Return Nothing
         End Function
         
-        Public Function ObterLivrosDisponiveis() As DataTable
-            Dim query As String = "SELECT * FROM Livros WHERE ID NOT IN (SELECT IdLivro FROM Emprestimos WHERE DataDevolucao IS NULL)"
-            Return db.ExecuteQuery(query)
+        Public Shared Function ObterLivrosDisponiveis() As DataTable
+            Dim query As String = "SELECT * FROM Livros WHERE Estado = 'Disponível'"
+            Return DatabaseConnection.ExecuteQuery(query)
         End Function
         
-        Public Function ObterUtilizadores() As DataTable
+        Public Shared Function ObterUtilizadores() As DataTable
             Dim query As String = "SELECT * FROM Utilizadores"
-            Return db.ExecuteQuery(query)
+            Return DatabaseConnection.ExecuteQuery(query)
         End Function
     End Class
 End Namespace

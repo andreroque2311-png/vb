@@ -2,6 +2,7 @@ Imports System.Windows.Forms
 Imports System.Drawing
 Imports BibliotecaEscolar.Models
 Imports BibliotecaEscolar.DAL
+Imports System.Data
 
 Namespace BibliotecaEscolar.Forms
     Public Class FormUtilizadores
@@ -15,10 +16,8 @@ Namespace BibliotecaEscolar.Forms
         Private btnAtualizar As Button
         Private btnDeletar As Button
         Private btnLimpar As Button
-        Private utilizadorDAL As UtilizadorDAL
         
         Public Sub New()
-            utilizadorDAL = New UtilizadorDAL()
             InitializeComponent()
             CarregarUtilizadores()
         End Sub
@@ -105,7 +104,7 @@ Namespace BibliotecaEscolar.Forms
         
         Private Sub CarregarUtilizadores()
             Try
-                Dim dt As DataTable = utilizadorDAL.ListarTodos()
+                Dim dt As DataTable = UtilizadorDAL.ListarTodos()
                 dgvUtilizadores.DataSource = dt
             Catch ex As Exception
                 MessageBox.Show("Erro ao carregar utilizadores: " & ex.Message)
@@ -134,7 +133,7 @@ Namespace BibliotecaEscolar.Forms
                 utilizador.Email = txtEmail.Text
                 utilizador.Telefone = txtTelefone.Text
                 
-                utilizadorDAL.AdicionarUtilizador(utilizador)
+                UtilizadorDAL.AdicionarUtilizador(utilizador)
                 MessageBox.Show("Utilizador adicionado com sucesso!")
                 CarregarUtilizadores()
                 BtnLimpar_Click(Nothing, Nothing)
@@ -161,7 +160,7 @@ Namespace BibliotecaEscolar.Forms
                 utilizador.Email = txtEmail.Text
                 utilizador.Telefone = txtTelefone.Text
                 
-                utilizadorDAL.AtualizarUtilizador(utilizador)
+                UtilizadorDAL.AtualizarUtilizador(utilizador)
                 MessageBox.Show("Utilizador atualizado com sucesso!")
                 CarregarUtilizadores()
                 BtnLimpar_Click(Nothing, Nothing)
@@ -179,7 +178,7 @@ Namespace BibliotecaEscolar.Forms
                 
                 If MessageBox.Show("Deseja realmente deletar este utilizador?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                     Dim id As Integer = CInt(txtNome.Tag)
-                    utilizadorDAL.DeletarUtilizador(id)
+                    UtilizadorDAL.DeletarUtilizador(id)
                     MessageBox.Show("Utilizador deletado com sucesso!")
                     CarregarUtilizadores()
                     BtnLimpar_Click(Nothing, Nothing)
