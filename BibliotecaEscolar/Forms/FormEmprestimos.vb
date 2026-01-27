@@ -204,8 +204,8 @@ Namespace BibliotecaEscolar.Forms
 
             Dim row As DataGridViewRow = dgvEmprestimos.SelectedRows(0)
 
-            If row.Cells("IdLivro").Value IsNot DBNull.Value Then
-                Dim idLivro As Integer = Convert.ToInt32(row.Cells("IdLivro").Value)
+            If row.Cells("ID_Livro").Value IsNot DBNull.Value Then
+                Dim idLivro As Integer = Convert.ToInt32(row.Cells("ID_Livro").Value)
                 If cmbLivro.DataSource IsNot Nothing Then
                     cmbLivro.SelectedValue = idLivro
                     cmbLivro.Tag = idLivro
@@ -213,27 +213,27 @@ Namespace BibliotecaEscolar.Forms
                 End If
             End If
 
-            If row.Cells("IdUtilizador").Value IsNot DBNull.Value Then
-                Dim idUtilizador As Integer = Convert.ToInt32(row.Cells("IdUtilizador").Value)
+            If row.Cells("ID_Utilizador").Value IsNot DBNull.Value Then
+                Dim idUtilizador As Integer = Convert.ToInt32(row.Cells("ID_Utilizador").Value)
                 If cmbUtilizador.DataSource IsNot Nothing Then
                     cmbUtilizador.SelectedValue = idUtilizador
                     cmbUtilizador.Tag = idUtilizador
                 End If
             End If
 
-            If row.Cells("DataEmprestimo").Value IsNot DBNull.Value Then
-                txtDataEmprestimo.Text = Convert.ToDateTime(row.Cells("DataEmprestimo").Value).ToString("yyyy-MM-dd")
+            If row.Cells("Data_Emprestimo").Value IsNot DBNull.Value Then
+                txtDataEmprestimo.Text = Convert.ToDateTime(row.Cells("Data_Emprestimo").Value).ToString("yyyy-MM-dd")
             Else
                 txtDataEmprestimo.Text = DateTime.Today.ToString("yyyy-MM-dd")
             End If
 
-            If row.Cells("DataDevolucao").Value IsNot DBNull.Value Then
-                txtDataDevolucao.Text = Convert.ToDateTime(row.Cells("DataDevolucao").Value).ToString("yyyy-MM-dd")
+            If row.Cells("Data_Devolucao").Value IsNot DBNull.Value Then
+                txtDataDevolucao.Text = Convert.ToDateTime(row.Cells("Data_Devolucao").Value).ToString("yyyy-MM-dd")
             Else
                 txtDataDevolucao.Clear()
             End If
 
-            txtDataEmprestimo.Tag = row.Cells("ID").Value
+            txtDataEmprestimo.Tag = row.Cells("ID_Emprestimo").Value
         End Sub
 
         Private Sub BtnAdicionar_Click(sender As Object, e As EventArgs)
