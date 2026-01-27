@@ -105,7 +105,7 @@ Namespace BibliotecaEscolar.Forms
         
         Private Sub CarregarLivros()
             Try
-                Dim dt As DataTable = livroDAL.ObterTodos()
+                Dim dt As DataTable = livroDAL.ListarTodos()
                 dgvLivros.DataSource = dt
             Catch ex As Exception
                 MessageBox.Show("Erro ao carregar livros: " & ex.Message)

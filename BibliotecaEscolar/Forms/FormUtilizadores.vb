@@ -105,7 +105,7 @@ Namespace BibliotecaEscolar.Forms
         
         Private Sub CarregarUtilizadores()
             Try
-                Dim dt As DataTable = utilizadorDAL.ObterTodos()
+                Dim dt As DataTable = utilizadorDAL.ListarTodos()
                 dgvUtilizadores.DataSource = dt
             Catch ex As Exception
                 MessageBox.Show("Erro ao carregar utilizadores: " & ex.Message)

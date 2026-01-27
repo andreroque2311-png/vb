@@ -10,7 +10,7 @@ Namespace BibliotecaEscolar.DAL
             db = New DatabaseConnection()
         End Sub
         
-        Public Function ObterTodos() As DataTable
+        Public Function ListarTodos() As DataTable
             Dim query As String = "SELECT * FROM Utilizadores"
             Return db.ExecuteQuery(query)
         End Function
