@@ -130,19 +130,17 @@ Namespace BibliotecaEscolar.Forms
                 txtIdLivro.Text = row.Cells("IdLivro").Value.ToString()
                 txtIdUtilizador.Text = row.Cells("IdUtilizador").Value.ToString()
                 
-                If row.Table.Columns.Contains("DataEmprestimo") AndAlso row.Cells("DataEmprestimo").Value IsNot DBNull.Value Then
+                If row.Cells("DataEmprestimo").Value IsNot DBNull.Value Then
                     txtDataEmprestimo.Text = Convert.ToDateTime(row.Cells("DataEmprestimo").Value).ToString("yyyy-MM-dd")
                 End If
                 
-                If row.Table.Columns.Contains("DataDevolucao") AndAlso row.Cells("DataDevolucao").Value IsNot DBNull.Value Then
+                If row.Cells("DataDevolucao").Value IsNot DBNull.Value Then
                     txtDataDevolucao.Text = Convert.ToDateTime(row.Cells("DataDevolucao").Value).ToString("yyyy-MM-dd")
                 Else
                     txtDataDevolucao.Clear()
                 End If
                 
-                If row.Table.Columns.Contains("ID") Then
-                    txtIdLivro.Tag = row.Cells("ID").Value
-                End If
+                txtIdLivro.Tag = row.Cells("ID").Value
             End If
         End Sub
         
