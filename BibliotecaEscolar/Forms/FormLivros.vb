@@ -2,6 +2,7 @@ Imports System.Windows.Forms
 Imports System.Drawing
 Imports BibliotecaEscolar.Models
 Imports BibliotecaEscolar.DAL
+Imports System.Data
 
 Namespace BibliotecaEscolar.Forms
     Public Class FormLivros
@@ -10,15 +11,14 @@ Namespace BibliotecaEscolar.Forms
         Private dgvLivros As DataGridView
         Private txtTitulo As TextBox
         Private txtAutor As TextBox
-        Private txtISBN As TextBox
+        Private txtAno As TextBox
+        Private cmbEstado As ComboBox
         Private btnAdicionar As Button
         Private btnAtualizar As Button
         Private btnDeletar As Button
         Private btnLimpar As Button
-        Private livroDAL As LivroDAL
         
         Public Sub New()
-            livroDAL = New LivroDAL()
             InitializeComponent()
             CarregarLivros()
         End Sub
@@ -62,16 +62,30 @@ Namespace BibliotecaEscolar.Forms
             txtAutor.Size = New Size(200, 25)
             Me.Controls.Add(txtAutor)
             
-            Dim lblISBN = New Label
-            lblISBN.Text = "ISBN:"
-            lblISBN.Location = New Point(430, 320)
-            lblISBN.AutoSize = True
-            Me.Controls.Add(lblISBN)
+            Dim lblAno = New Label
+            lblAno.Text = "Ano:"
+            lblAno.Location = New Point(430, 320)
+            lblAno.AutoSize = True
+            Me.Controls.Add(lblAno)
             
-            txtISBN = New TextBox
-            txtISBN.Location = New Point(430, 340)
-            txtISBN.Size = New Size(200, 25)
-            Me.Controls.Add(txtISBN)
+            txtAno = New TextBox
+            txtAno.Location = New Point(430, 340)
+            txtAno.Size = New Size(100, 25)
+            Me.Controls.Add(txtAno)
+
+            Dim lblEstado = New Label
+            lblEstado.Text = "Estado:"
+            lblEstado.Location = New Point(540, 320)
+            lblEstado.AutoSize = True
+            Me.Controls.Add(lblEstado)
+
+            cmbEstado = New ComboBox
+            cmbEstado.Location = New Point(540, 340)
+            cmbEstado.Size = New Size(150, 25)
+            cmbEstado.DropDownStyle = ComboBoxStyle.DropDownList
+            cmbEstado.Items.AddRange(New Object() {"Disponível", "Emprestado"})
+            cmbEstado.SelectedIndex = 0
+            Me.Controls.Add(cmbEstado)
             
             ' Botões
             btnAdicionar = New Button
@@ -105,7 +119,7 @@ Namespace BibliotecaEscolar.Forms
         
         Private Sub CarregarLivros()
             Try
-                Dim dt As DataTable = livroDAL.ListarTodos()
+                Dim dt As DataTable = LivroDAL.ListarTodos()
                 dgvLivros.DataSource = dt
             Catch ex As Exception
                 MessageBox.Show("Erro ao carregar livros: " & ex.Message)
@@ -117,7 +131,8 @@ Namespace BibliotecaEscolar.Forms
                 Dim row As DataGridViewRow = dgvLivros.SelectedRows(0)
                 txtTitulo.Text = row.Cells("Titulo").Value.ToString()
                 txtAutor.Text = row.Cells("Autor").Value.ToString()
-                txtISBN.Text = row.Cells("ISBN").Value.ToString()
+                txtAno.Text = row.Cells("Ano").Value.ToString()
+                cmbEstado.SelectedItem = row.Cells("Estado").Value.ToString()
                 txtTitulo.Tag = row.Cells("ID").Value
             End If
         End Sub
@@ -132,9 +147,10 @@ Namespace BibliotecaEscolar.Forms
                 Dim livro As New Livro
                 livro.Titulo = txtTitulo.Text
                 livro.Autor = txtAutor.Text
-                livro.ISBN = txtISBN.Text
+                livro.Ano = If(IsNumeric(txtAno.Text), CInt(txtAno.Text), 0)
+                livro.Estado = cmbEstado.SelectedItem.ToString()
                 
-                livroDAL.AdicionarLivro(livro)
+                LivroDAL.AdicionarLivro(livro)
                 MessageBox.Show("Livro adicionado com sucesso!")
                 CarregarLivros()
                 BtnLimpar_Click(Nothing, Nothing)
@@ -159,9 +175,10 @@ Namespace BibliotecaEscolar.Forms
                 livro.ID = CInt(txtTitulo.Tag)
                 livro.Titulo = txtTitulo.Text
                 livro.Autor = txtAutor.Text
-                livro.ISBN = txtISBN.Text
+                livro.Ano = If(IsNumeric(txtAno.Text), CInt(txtAno.Text), 0)
+                livro.Estado = cmbEstado.SelectedItem.ToString()
                 
-                livroDAL.AtualizarLivro(livro)
+                LivroDAL.AtualizarLivro(livro)
                 MessageBox.Show("Livro atualizado com sucesso!")
                 CarregarLivros()
                 BtnLimpar_Click(Nothing, Nothing)
@@ -179,7 +196,7 @@ Namespace BibliotecaEscolar.Forms
                 
                 If MessageBox.Show("Deseja realmente deletar este livro?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                     Dim id As Integer = CInt(txtTitulo.Tag)
-                    livroDAL.DeletarLivro(id)
+                    LivroDAL.DeletarLivro(id)
                     MessageBox.Show("Livro deletado com sucesso!")
                     CarregarLivros()
                     BtnLimpar_Click(Nothing, Nothing)
@@ -192,7 +209,8 @@ Namespace BibliotecaEscolar.Forms
         Private Sub BtnLimpar_Click(sender As Object, e As EventArgs)
             txtTitulo.Clear()
             txtAutor.Clear()
-            txtISBN.Clear()
+            txtAno.Clear()
+            If cmbEstado.Items.Count > 0 Then cmbEstado.SelectedIndex = 0
             txtTitulo.Tag = Nothing
             dgvLivros.ClearSelection()
         End Sub

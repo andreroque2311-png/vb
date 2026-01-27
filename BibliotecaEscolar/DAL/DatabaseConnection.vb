@@ -4,13 +4,13 @@ Imports System.Configuration
 
 Namespace BibliotecaEscolar.DAL
     Public Class DatabaseConnection
-        Private connectionString As String = ConfigurationManager.AppSettings("ConnectionString")
+        Private Shared ReadOnly connectionString As String = ConfigurationManager.AppSettings("ConnectionString")
         
-        Public Function GetConnection() As MySqlConnection
+        Public Shared Function GetConnection() As MySqlConnection
             Return New MySqlConnection(connectionString)
         End Function
         
-        Public Function ExecuteQuery(query As String, ParamArray parameters As MySqlParameter()) As DataTable
+        Public Shared Function ExecuteQuery(query As String, ParamArray parameters As MySqlParameter()) As DataTable
             Using conn As MySqlConnection = GetConnection()
                 Using cmd As New MySqlCommand(query, conn)
                     If parameters IsNot Nothing AndAlso parameters.Length > 0 Then
@@ -25,7 +25,7 @@ Namespace BibliotecaEscolar.DAL
             End Using
         End Function
         
-        Public Function ExecuteNonQuery(query As String, ParamArray parameters As MySqlParameter()) As Integer
+        Public Shared Function ExecuteNonQuery(query As String, ParamArray parameters As MySqlParameter()) As Integer
             Using conn As MySqlConnection = GetConnection()
                 conn.Open()
                 Using cmd As New MySqlCommand(query, conn)
@@ -37,7 +37,7 @@ Namespace BibliotecaEscolar.DAL
             End Using
         End Function
         
-        Public Function ExecuteScalar(query As String, ParamArray parameters As MySqlParameter()) As Object
+        Public Shared Function ExecuteScalar(query As String, ParamArray parameters As MySqlParameter()) As Object
             Using conn As MySqlConnection = GetConnection()
                 conn.Open()
                 Using cmd As New MySqlCommand(query, conn)

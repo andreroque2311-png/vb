@@ -2,6 +2,7 @@ Imports System.Windows.Forms
 Imports System.Drawing
 Imports BibliotecaEscolar.Models
 Imports BibliotecaEscolar.DAL
+Imports System.Data
 
 Namespace BibliotecaEscolar.Forms
     Public Class FormEmprestimos
@@ -16,10 +17,8 @@ Namespace BibliotecaEscolar.Forms
         Private btnAtualizar As Button
         Private btnDeletar As Button
         Private btnLimpar As Button
-        Private emprestimoDAL As EmprestimoDAL
         
         Public Sub New()
-            emprestimoDAL = New EmprestimoDAL()
             InitializeComponent()
             CarregarEmprestimos()
         End Sub
@@ -117,7 +116,7 @@ Namespace BibliotecaEscolar.Forms
         
         Private Sub CarregarEmprestimos()
             Try
-                Dim dt As DataTable = emprestimoDAL.ListarTodos()
+                Dim dt As DataTable = EmprestimoDAL.ListarTodos()
                 dgvEmprestimos.DataSource = dt
             Catch ex As Exception
                 MessageBox.Show("Erro ao carregar empréstimos: " & ex.Message)
@@ -160,7 +159,7 @@ Namespace BibliotecaEscolar.Forms
                     emprestimo.DataDevolucao = DateTime.Parse(txtDataDevolucao.Text)
                 End If
                 
-                emprestimoDAL.AdicionarEmprestimo(emprestimo)
+                EmprestimoDAL.AdicionarEmprestimo(emprestimo)
                 MessageBox.Show("Empréstimo adicionado com sucesso!")
                 CarregarEmprestimos()
                 BtnLimpar_Click(Nothing, Nothing)
@@ -193,7 +192,7 @@ Namespace BibliotecaEscolar.Forms
                     emprestimo.DataDevolucao = Nothing
                 End If
                 
-                emprestimoDAL.AtualizarEmprestimo(emprestimo)
+                EmprestimoDAL.AtualizarEmprestimo(emprestimo)
                 MessageBox.Show("Empréstimo atualizado com sucesso!")
                 CarregarEmprestimos()
                 BtnLimpar_Click(Nothing, Nothing)
@@ -211,7 +210,7 @@ Namespace BibliotecaEscolar.Forms
                 
                 If MessageBox.Show("Deseja realmente deletar este empréstimo?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                     Dim id As Integer = CInt(txtIdLivro.Tag)
-                    emprestimoDAL.DeletarEmprestimo(id)
+                    EmprestimoDAL.DeletarEmprestimo(id)
                     MessageBox.Show("Empréstimo deletado com sucesso!")
                     CarregarEmprestimos()
                     BtnLimpar_Click(Nothing, Nothing)
