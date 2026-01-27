@@ -15,8 +15,15 @@ Namespace BibliotecaEscolar.Forms
         Private btnAtualizar As Button
         Private btnDeletar As Button
         Private btnLimpar As Button
+        Private livroDAL As LivroDAL
         
         Public Sub New()
+            livroDAL = New LivroDAL()
+            InitializeComponent()
+            CarregarLivros()
+        End Sub
+        
+        Private Sub InitializeComponent()
             Me.Text = "Gestão de Livros"
             Me.Size = New Size(900, 500)
             Me.StartPosition = FormStartPosition.CenterScreen
@@ -25,13 +32,18 @@ Namespace BibliotecaEscolar.Forms
             dgvLivros = New DataGridView
             dgvLivros.Location = New Point(10, 10)
             dgvLivros.Size = New Size(860, 300)
-            dgvLivros.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+            dgvLivros.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            dgvLivros.AllowUserToAddRows = False
+            dgvLivros.ReadOnly = True
+            dgvLivros.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+            AddHandler dgvLivros.SelectionChanged, AddressOf DgvLivros_SelectionChanged
             Me.Controls.Add(dgvLivros)
             
             ' Labels e TextBoxes
             Dim lblTitulo = New Label
             lblTitulo.Text = "Título:"
             lblTitulo.Location = New Point(10, 320)
+            lblTitulo.AutoSize = True
             Me.Controls.Add(lblTitulo)
             
             txtTitulo = New TextBox
@@ -42,6 +54,7 @@ Namespace BibliotecaEscolar.Forms
             Dim lblAutor = New Label
             lblAutor.Text = "Autor:"
             lblAutor.Location = New Point(220, 320)
+            lblAutor.AutoSize = True
             Me.Controls.Add(lblAutor)
             
             txtAutor = New TextBox
@@ -52,6 +65,7 @@ Namespace BibliotecaEscolar.Forms
             Dim lblISBN = New Label
             lblISBN.Text = "ISBN:"
             lblISBN.Location = New Point(430, 320)
+            lblISBN.AutoSize = True
             Me.Controls.Add(lblISBN)
             
             txtISBN = New TextBox
@@ -71,12 +85,14 @@ Namespace BibliotecaEscolar.Forms
             btnAtualizar.Text = "Atualizar"
             btnAtualizar.Location = New Point(120, 380)
             btnAtualizar.Size = New Size(100, 30)
+            AddHandler btnAtualizar.Click, AddressOf BtnAtualizar_Click
             Me.Controls.Add(btnAtualizar)
             
             btnDeletar = New Button
             btnDeletar.Text = "Deletar"
             btnDeletar.Location = New Point(230, 380)
             btnDeletar.Size = New Size(100, 30)
+            AddHandler btnDeletar.Click, AddressOf BtnDeletar_Click
             Me.Controls.Add(btnDeletar)
             
             btnLimpar = New Button
@@ -87,20 +103,98 @@ Namespace BibliotecaEscolar.Forms
             Me.Controls.Add(btnLimpar)
         End Sub
         
+        Private Sub CarregarLivros()
+            Try
+                Dim dt As DataTable = livroDAL.ObterTodos()
+                dgvLivros.DataSource = dt
+            Catch ex As Exception
+                MessageBox.Show("Erro ao carregar livros: " & ex.Message)
+            End Try
+        End Sub
+        
+        Private Sub DgvLivros_SelectionChanged(sender As Object, e As EventArgs)
+            If dgvLivros.SelectedRows.Count > 0 Then
+                Dim row As DataGridViewRow = dgvLivros.SelectedRows(0)
+                txtTitulo.Text = row.Cells("Titulo").Value.ToString()
+                txtAutor.Text = row.Cells("Autor").Value.ToString()
+                txtISBN.Text = row.Cells("ISBN").Value.ToString()
+                txtTitulo.Tag = row.Cells("ID").Value
+            End If
+        End Sub
+        
         Private Sub BtnAdicionar_Click(sender As Object, e As EventArgs)
-            Dim livro = New Livro
-            livro.Titulo = txtTitulo.Text
-            livro.Autor = txtAutor.Text
-            livro.ISBN = txtISBN.Text
-            
-            MessageBox.Show("Livro adicionado com sucesso!")
-            BtnLimpar_Click(Nothing, Nothing)
+            Try
+                If String.IsNullOrWhiteSpace(txtTitulo.Text) OrElse String.IsNullOrWhiteSpace(txtAutor.Text) Then
+                    MessageBox.Show("Preencha o título e autor!")
+                    Return
+                End If
+                
+                Dim livro As New Livro
+                livro.Titulo = txtTitulo.Text
+                livro.Autor = txtAutor.Text
+                livro.ISBN = txtISBN.Text
+                
+                livroDAL.AdicionarLivro(livro)
+                MessageBox.Show("Livro adicionado com sucesso!")
+                CarregarLivros()
+                BtnLimpar_Click(Nothing, Nothing)
+            Catch ex As Exception
+                MessageBox.Show("Erro ao adicionar livro: " & ex.Message)
+            End Try
+        End Sub
+        
+        Private Sub BtnAtualizar_Click(sender As Object, e As EventArgs)
+            Try
+                If txtTitulo.Tag Is Nothing Then
+                    MessageBox.Show("Selecione um livro para atualizar!")
+                    Return
+                End If
+                
+                If String.IsNullOrWhiteSpace(txtTitulo.Text) OrElse String.IsNullOrWhiteSpace(txtAutor.Text) Then
+                    MessageBox.Show("Preencha o título e autor!")
+                    Return
+                End If
+                
+                Dim livro As New Livro
+                livro.ID = CInt(txtTitulo.Tag)
+                livro.Titulo = txtTitulo.Text
+                livro.Autor = txtAutor.Text
+                livro.ISBN = txtISBN.Text
+                
+                livroDAL.AtualizarLivro(livro)
+                MessageBox.Show("Livro atualizado com sucesso!")
+                CarregarLivros()
+                BtnLimpar_Click(Nothing, Nothing)
+            Catch ex As Exception
+                MessageBox.Show("Erro ao atualizar livro: " & ex.Message)
+            End Try
+        End Sub
+        
+        Private Sub BtnDeletar_Click(sender As Object, e As EventArgs)
+            Try
+                If txtTitulo.Tag Is Nothing Then
+                    MessageBox.Show("Selecione um livro para deletar!")
+                    Return
+                End If
+                
+                If MessageBox.Show("Deseja realmente deletar este livro?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+                    Dim id As Integer = CInt(txtTitulo.Tag)
+                    livroDAL.DeletarLivro(id)
+                    MessageBox.Show("Livro deletado com sucesso!")
+                    CarregarLivros()
+                    BtnLimpar_Click(Nothing, Nothing)
+                End If
+            Catch ex As Exception
+                MessageBox.Show("Erro ao deletar livro: " & ex.Message)
+            End Try
         End Sub
         
         Private Sub BtnLimpar_Click(sender As Object, e As EventArgs)
             txtTitulo.Clear()
             txtAutor.Clear()
             txtISBN.Clear()
+            txtTitulo.Tag = Nothing
+            dgvLivros.ClearSelection()
         End Sub
     End Class
 End Namespace
