@@ -117,7 +117,7 @@ Namespace BibliotecaEscolar.Forms
         
         Private Sub CarregarEmprestimos()
             Try
-                Dim dt As DataTable = emprestimoDAL.ObterTodos()
+                Dim dt As DataTable = emprestimoDAL.ListarTodos()
                 dgvEmprestimos.DataSource = dt
             Catch ex As Exception
                 MessageBox.Show("Erro ao carregar empréstimos: " & ex.Message)

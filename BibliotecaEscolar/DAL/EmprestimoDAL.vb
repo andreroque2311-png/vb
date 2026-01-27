@@ -10,8 +10,8 @@ Namespace BibliotecaEscolar.DAL
             db = New DatabaseConnection()
         End Sub
         
-        Public Function ObterTodos() As DataTable
-            Dim query As String = "SELECT e.ID, e.IdLivro, l.Titulo AS LivroTitulo, e.IdUtilizador, u.Nome AS UtilizadorNome, e.DataEmprestimo, e.DataDevolucao FROM Emprestimos e INNER JOIN Livros l ON e.IdLivro = l.ID INNER JOIN Utilizadores u ON e.IdUtilizador = u.ID"
+        Public Function ListarTodos() As DataTable
+            Dim query As String = "SELECT * FROM Emprestimos"
             Return db.ExecuteQuery(query)
         End Function
         

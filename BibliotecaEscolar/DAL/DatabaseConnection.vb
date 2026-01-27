@@ -1,10 +1,11 @@
 Imports MySql.Data.MySqlClient
 Imports System.Data
+Imports System.Configuration
 
 Namespace BibliotecaEscolar.DAL
     Public Class DatabaseConnection
-        Private connectionString As String = "Server=localhost;Database=biblioteca_escolar;Uid=root;Pwd=;"
-
+        Private connectionString As String = ConfigurationManager.AppSettings("ConnectionString")
+        
         Public Function GetConnection() As MySqlConnection
             Return New MySqlConnection(connectionString)
         End Function
