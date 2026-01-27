@@ -80,11 +80,13 @@ Namespace BibliotecaEscolar.Forms
             lblDataDevolucao.Text = "Data de Devolução:"
             lblDataDevolucao.Location = New Point(730, 320)
             lblDataDevolucao.AutoSize = True
+            AddHandler lblDataDevolucao.Click, AddressOf LblDataDevolucao_Click
             Me.Controls.Add(lblDataDevolucao)
 
             txtDataDevolucao = New TextBox
             txtDataDevolucao.Location = New Point(730, 340)
             txtDataDevolucao.Size = New Size(140, 25)
+            AddHandler txtDataDevolucao.Click, AddressOf TxtDataDevolucao_Click
             Me.Controls.Add(txtDataDevolucao)
 
             btnAdicionar = New Button
@@ -243,6 +245,12 @@ Namespace BibliotecaEscolar.Forms
                     Return
                 End If
 
+                ' Verificar se o livro já está emprestado sem devolução
+                If EmprestimoDAL.VerificarLivroEmprestadoSemDevolucao(CInt(cmbLivro.Tag)) Then
+                    MessageBox.Show("Este livro ainda está sendo emprestado. Registre a devolução antes de fazer um novo empréstimo!")
+                    Return
+                End If
+
                 Dim emprestimo As New Emprestimo
                 emprestimo.IdLivro = CInt(cmbLivro.Tag)
                 emprestimo.IdUtilizador = CInt(cmbUtilizador.Tag)
@@ -335,6 +343,37 @@ Namespace BibliotecaEscolar.Forms
             If cmbUtilizador.Items.Count > 0 Then
                 cmbUtilizador.SelectedIndex = -1
             End If
+        End Sub
+
+        Private Sub LblDataDevolucao_Click(sender As Object, e As EventArgs)
+            AbrirCalendario()
+        End Sub
+
+        Private Sub TxtDataDevolucao_Click(sender As Object, e As EventArgs)
+            AbrirCalendario()
+        End Sub
+
+        Private Sub AbrirCalendario()
+            Try
+                ' Criar o formulário de seleção de data
+                Using frmCalendario As New FormSelecionarData("Selecionar Data de Devolução")
+                    ' Definir a data mínima baseada na data de empréstimo
+                    Dim dataMinima As DateTime = If(Not String.IsNullOrWhiteSpace(txtDataEmprestimo.Text), 
+                                                   DateTime.Parse(txtDataEmprestimo.Text), 
+                                                   DateTime.Today)
+                    frmCalendario.DataMinima = dataMinima
+
+                    ' Exibir o formulário como modal
+                    Dim result As DialogResult = frmCalendario.ShowDialog(Me)
+
+                    ' Se o usuário selecionou uma data, preencher o campo
+                    If result = DialogResult.OK Then
+                        txtDataDevolucao.Text = frmCalendario.DataSelecionada.Value.ToString("yyyy-MM-dd")
+                    End If
+                End Using
+            Catch ex As Exception
+                MessageBox.Show("Erro ao abrir calendário: " & ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
         End Sub
     End Class
 End Namespace

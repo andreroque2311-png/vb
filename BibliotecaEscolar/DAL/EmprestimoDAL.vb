@@ -69,5 +69,14 @@ Namespace BibliotecaEscolar.DAL
             Dim query As String = "SELECT * FROM Utilizadores"
             Return DatabaseConnection.ExecuteQuery(query)
         End Function
+
+        Public Shared Function VerificarLivroEmprestadoSemDevolucao(idLivro As Integer) As Boolean
+            Dim query As String = "SELECT COUNT(*) FROM Emprestimos WHERE ID_Livro = @IdLivro AND Data_Devolucao IS NULL"
+            Dim parameters As MySqlParameter() = {
+                New MySqlParameter("@IdLivro", idLivro)
+            }
+            Dim count As Integer = CInt(DatabaseConnection.ExecuteScalar(query, parameters))
+            Return count > 0
+        End Function
     End Class
 End Namespace
